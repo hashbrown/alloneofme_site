@@ -12,9 +12,9 @@ const {
 } = Astro.props;
 const currentPath = Astro.url.pathname.replace(/\/$/, '');
 const navigation = [
-  { slug: 'words-in-order', label: 'Words In Order' },
-  { slug: 'signal', label: 'Signal' },
-  { slug: 'lab', label: 'Lab' },
+  { slug: 'words', label: 'Words' },
+  { slug: 'signals', label: 'Signals' },
+  { slug: 'software', label: 'Software' },
   { slug: 'about', label: 'About' },
 ].map((section) => ({ ...section, href: `/${section.slug}/` }));
 const currentSection = navigation.find(({ href }) =>

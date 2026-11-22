@@ -4,8 +4,8 @@ import InteriorLayout from '../../layouts/InteriorLayout.astro';
 
 export async function getStaticPaths() {
   const sections = [
-    { collection: 'writing', slug: 'words-in-order', title: 'Words In Order' },
-    { collection: 'projects', slug: 'lab', title: 'Lab' },
+    { collection: 'writing', slug: 'words', title: 'Words In Order' },
+    { collection: 'projects', slug: 'software', title: 'Lab' },
   ] as const;
 
   const paths = await Promise.all(sections.map(async ({ collection, slug, title }) => {

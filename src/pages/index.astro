@@ -23,7 +23,7 @@ const projects = (await getCollection('projects'))
       <p class="eyebrow">Featured · Words In Order</p>
       <h1 id="feature">{featured.data.title}</h1>
       <p class="summary">{featured.data.summary}</p>
-      <a class="hero-link" href={'/words-in-order/' + featured.id + '/'}>Read the article</a>
+      <a class="hero-link" href={'/words/' + featured.id + '/'}>Read the article</a>
     </div>
     <HeroChart />
   </section>
@@ -32,23 +32,23 @@ const projects = (await getCollection('projects'))
     <section aria-labelledby="writing-title">
       <div class="section-head">
         <h2 id="writing-title">Words In Order</h2>
-        <a href="/words-in-order/">All writing</a>
+        <a href="/words/">All writing</a>
       </div>
       {writing.map(({ id, data }) => (
-        <Entry title={data.title} label={data.label} href={'/words-in-order/' + id + '/'} />
+        <Entry title={data.title} label={data.label} href={'/words/' + id + '/'} />
       ))}
     </section>
     <section aria-labelledby="signal-title">
       <div class="section-head">
         <h2 id="signal-title">Signal</h2>
-        <a href="/signal/">Browse streams</a>
+        <a href="/signals/">Browse streams</a>
       </div>
       <p class="section-description">Highly Curated Streams</p>
       {streams.flatMap(({ id, title, entries }) => entries.slice(0, 1).map((entry) => (
         <Entry
           title={entry.title}
           label={entry.url ? title : title + ' · Sample'}
-          href={entry.url ?? '/signal/#' + id}
+          href={entry.url ?? '/signals/#' + id}
           thumbnail={entry.thumbnail}
         />
       )))}
@@ -56,10 +56,10 @@ const projects = (await getCollection('projects'))
     <section aria-labelledby="lab-title">
       <div class="section-head">
         <h2 id="lab-title">Lab</h2>
-        <a href="/lab/">All projects</a>
+        <a href="/software/">All projects</a>
       </div>
       {projects.map(({ id, data }) => (
-        <Entry title={data.title} label={data.label} summary={data.summary} href={'/lab/' + id + '/'} project />
+        <Entry title={data.title} label={data.label} summary={data.summary} href={'/software/' + id + '/'} project />
       ))}
     </section>
   </div>
