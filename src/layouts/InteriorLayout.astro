@@ -1,0 +1,24 @@
+---
+import SiteLayout from './SiteLayout.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  parent?: { title: string; href: string };
+  label?: string;
+}
+
+const { title, description, label, parent } = Astro.props;
+---
+
+<SiteLayout title={title} description={description}>
+  <div class="interior">
+    <header class="page-heading">
+      {parent && <a class="eyebrow parent-link" href={parent.href}>{parent.title}</a>}
+      {label && <p class="eyebrow">{label}</p>}
+      <h1>{title}</h1>
+      {description && <p class="page-summary">{description}</p>}
+    </header>
+    <slot />
+  </div>
+</SiteLayout>

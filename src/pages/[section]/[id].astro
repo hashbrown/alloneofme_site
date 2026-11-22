@@ -1,0 +1,31 @@
+---
+import { getCollection, render } from 'astro:content';
+import InteriorLayout from '../../layouts/InteriorLayout.astro';
+
+export async function getStaticPaths() {
+  const sections = [
+    { collection: 'writing', slug: 'words-in-order', title: 'Words In Order' },
+    { collection: 'projects', slug: 'lab', title: 'Lab' },
+  ] as const;
+
+  const paths = await Promise.all(sections.map(async ({ collection, slug, title }) => {
+    const entries = await getCollection(collection);
+    return entries.map((entry) => ({
+      params: { section: slug, id: entry.id },
+      props: { entry, parent: { title, href: '/' + slug + '/' } },
+    }));
+  }));
+  return paths.flat();
+}
+
+const { entry, parent } = Astro.props;
+const { Content } = await render(entry);
+const repository = entry.collection === 'projects' ? entry.data.repository : undefined;
+---
+
+<InteriorLayout title={entry.data.title} description={entry.data.summary} label={entry.data.label} parent={parent}>
+  <article class="prose">
+    <Content />
+    {repository && <p><a href={repository}>View the project on GitHub</a></p>}
+  </article>
+</InteriorLayout>

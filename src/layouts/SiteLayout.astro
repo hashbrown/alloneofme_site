@@ -1,0 +1,75 @@
+---
+import '../styles/site.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title,
+  description = 'Writing, curated streams, and projects from Brad Armstrong.',
+} = Astro.props;
+const currentPath = Astro.url.pathname.replace(/\/$/, '');
+const navigation = [
+  { slug: 'words-in-order', label: 'Words In Order' },
+  { slug: 'signal', label: 'Signal' },
+  { slug: 'lab', label: 'Lab' },
+  { slug: 'about', label: 'About' },
+].map((section) => ({ ...section, href: `/${section.slug}/` }));
+const currentSection = navigation.find(({ href }) =>
+  currentPath === href.slice(0, -1) || currentPath.startsWith(href)
+);
+const isSectionPage = currentSection && currentPath === currentSection.href.slice(0, -1);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <title>{title ? title + ' · alloneof.me' : 'alloneof.me'}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <svg xmlns="http://www.w3.org/2000/svg" hidden aria-hidden="true">
+      <symbol id="flask" viewBox="0 0 24 24">
+        <path d="M9 3h6m-5 0v6l-5.5 9a2 2 0 0 0 1.7 3h11.6a2 2 0 0 0 1.7-3L14 9V3M7.5 15h9" />
+      </symbol>
+      <symbol id="shuffle-icon" viewBox="0 0 24 24">
+        <path d="M3 6h4l10 12h4m-3-3 3 3-3 3M3 18h4l2.4-2.9m4.5-6L17 6h4m-3-3 3 3-3 3" />
+      </symbol>
+    </svg>
+    <header class="site-header">
+      <nav class="bar wrap" aria-label="Main navigation">
+        <div class="nav-location">
+          <a class="brand" href="/" aria-label="alloneof.me home" aria-current={currentPath === '' ? 'page' : undefined}>alloneof.me</a>
+          {currentSection && !isSectionPage && title && (
+            <span class="nav-page" aria-current="page" title={title}>{title}</span>
+          )}
+        </div>
+        <div class="nav-sections">
+          {navigation.map((section) => (
+            <a
+              class:list={['nav-section', { active: section === currentSection }]}
+              href={section.href}
+              data-label={section.label}
+              style={`view-transition-name: nav-${section.slug}`}
+              aria-current={section === currentSection && isSectionPage ? 'page' : undefined}
+            >
+              <span>{section.label}</span>
+            </a>
+          ))}
+        </div>
+      </nav>
+    </header>
+    <main class="wrap" id="main-content">
+      <slot />
+    </main>
+    <footer class="wrap">
+      <a href="/about/">Brad Armstrong</a>
+      <span>Sample content</span>
+    </footer>
+  </body>
+</html>

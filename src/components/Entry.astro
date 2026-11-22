@@ -1,0 +1,35 @@
+---
+interface Props {
+  title: string;
+  href: string;
+  label?: string;
+  summary?: string;
+  thumbnail?: 'left' | 'right';
+  project?: boolean;
+  heading?: 'h2' | 'h3';
+}
+
+const {
+  title,
+  href,
+  label,
+  summary,
+  thumbnail,
+  project,
+  heading: Heading = 'h3',
+} = Astro.props;
+---
+
+<article class:list={['entry', { 'feed-row': thumbnail }]}>
+  {thumbnail && <div class:list={['thumb', thumbnail]} aria-hidden="true"></div>}
+  <div>
+    {label && (
+      <p class:list={['meta', { 'entry-kind': project }]}>
+        {project && <svg class="icon" aria-hidden="true"><use href="#flask" /></svg>}
+        {label}
+      </p>
+    )}
+    <Heading class="entry-title"><a href={href}>{title}</a></Heading>
+    {summary && <p class="entry-summary">{summary}</p>}
+  </div>
+</article>

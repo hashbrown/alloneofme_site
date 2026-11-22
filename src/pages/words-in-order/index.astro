@@ -1,0 +1,15 @@
+---
+import { getCollection } from 'astro:content';
+import Entry from '../../components/Entry.astro';
+import InteriorLayout from '../../layouts/InteriorLayout.astro';
+
+const entries = (await getCollection('writing')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<InteriorLayout title="Words In Order" description="Articles, notes, and things I’m still thinking through.">
+  <div class="entry-list">
+    {entries.map(({ id, data }) => (
+      <Entry title={data.title} label={data.label} summary={data.summary} href={'/words-in-order/' + id + '/'} heading="h2" />
+    ))}
+  </div>
+</InteriorLayout>

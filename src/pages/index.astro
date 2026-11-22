@@ -1,0 +1,68 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import Entry from '../components/Entry.astro';
+import HeroChart from '../components/HeroChart.astro';
+import QuoteShuffle from '../components/QuoteShuffle.astro';
+import { streams } from '../data/signal';
+import SiteLayout from '../layouts/SiteLayout.astro';
+
+const featured = await getEntry('writing', 'the-tools-we-keep');
+if (!featured) throw new Error('The featured article is missing.');
+
+const writing = (await getCollection('writing', ({ id }) => id !== featured.id))
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 3);
+const projects = (await getCollection('projects'))
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 2);
+---
+
+<SiteLayout>
+  <section class="hero" aria-labelledby="feature">
+    <div class="hero-copy">
+      <p class="eyebrow">Featured · Words In Order</p>
+      <h1 id="feature">{featured.data.title}</h1>
+      <p class="summary">{featured.data.summary}</p>
+      <a class="hero-link" href={'/words-in-order/' + featured.id + '/'}>Read the article</a>
+    </div>
+    <HeroChart />
+  </section>
+
+  <div class="content">
+    <section aria-labelledby="writing-title">
+      <div class="section-head">
+        <h2 id="writing-title">Words In Order</h2>
+        <a href="/words-in-order/">All writing</a>
+      </div>
+      {writing.map(({ id, data }) => (
+        <Entry title={data.title} label={data.label} href={'/words-in-order/' + id + '/'} />
+      ))}
+    </section>
+    <section aria-labelledby="signal-title">
+      <div class="section-head">
+        <h2 id="signal-title">Signal</h2>
+        <a href="/signal/">Browse streams</a>
+      </div>
+      <p class="section-description">Highly Curated Streams</p>
+      {streams.flatMap(({ id, title, entries }) => entries.slice(0, 1).map((entry) => (
+        <Entry
+          title={entry.title}
+          label={entry.url ? title : title + ' · Sample'}
+          href={entry.url ?? '/signal/#' + id}
+          thumbnail={entry.thumbnail}
+        />
+      )))}
+    </section>
+    <section aria-labelledby="lab-title">
+      <div class="section-head">
+        <h2 id="lab-title">Lab</h2>
+        <a href="/lab/">All projects</a>
+      </div>
+      {projects.map(({ id, data }) => (
+        <Entry title={data.title} label={data.label} summary={data.summary} href={'/lab/' + id + '/'} project />
+      ))}
+    </section>
+  </div>
+
+  <QuoteShuffle />
+</SiteLayout>
