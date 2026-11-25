@@ -1,0 +1,52 @@
+src/data/github-activity.ts
+  s_dadd07c88e2b17::t_f47515db4a2030 1,12-109,115-117,119-123,127,144,146-156
+  s_dadd07c88e2b17::t_9c860a2630fa17 7-11,110-114,118,124-126,128-143,145
+  s_dadd07c88e2b17::t_3b6feffd2b14f5 2-6
+src/components/SectionIcon.astro
+  s_dadd07c88e2b17::t_a47de5b192f18e 1-13
+src/pages/index.astro
+  s_dadd07c88e2b17::t_a47de5b192f18e 6,35,44,58
+src/layouts/SignalsLayout.astro
+  s_dadd07c88e2b17::t_b1ccf294df0039 13
+src/styles/site.css
+  s_dadd07c88e2b17::t_9c860a2630fa17 231
+  s_dadd07c88e2b17::t_a47de5b192f18e 64-65
+  s_dadd07c88e2b17::t_e7e531b338c1ea 149-158,161-180
+  s_dadd07c88e2b17::t_b1ccf294df0039 120-128,131-148,159-160,181-207,223-225
+  s_dadd07c88e2b17::t_f47515db4a2030 114,117-118,230,232-237
+  s_dadd07c88e2b17::t_6c09584ad226c5 66,208-222
+src/layouts/InteriorLayout.astro
+  s_dadd07c88e2b17::t_b1ccf294df0039 14,20,22-27
+  s_dadd07c88e2b17::t_a47de5b192f18e 2-3,11,21
+  s_dadd07c88e2b17::t_f47515db4a2030 15,19,29-32
+src/components/GitHubActivity.astro
+  s_dadd07c88e2b17::t_9c860a2630fa17 2,13,15
+  s_dadd07c88e2b17::t_f47515db4a2030 1,3-12,14,16-27
+src/pages/software/index.astro
+  s_dadd07c88e2b17::t_f47515db4a2030 4-5,17-25
+  s_49e11f44c3a422::t_129cc91ac92e75 11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "a2b2b3f1d5bc1d2f88054268bec8754f93ecff6a",
+  "prompts": {},
+  "sessions": {
+    "s_49e11f44c3a422": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a210b5-e90f-7592-9a1a-a2f03e8c78f5",
+        "model": "unknown"
+      },
+      "human_author": "Brad Armstrong <hashbrown1+git@gmail.com>"
+    },
+    "s_dadd07c88e2b17": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a20466-8922-78a0-8c61-d387247dd5cb",
+        "model": "gpt-6.2-sol"
+      },
+      "human_author": "Brad Armstrong <hashbrown1+git@gmail.com>"
+    }
+  }
+}
