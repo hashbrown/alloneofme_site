@@ -9,6 +9,8 @@
     "preview": "astro preview"
   },
   "dependencies": {
+    "@astrojs/cloudflare": "14.4.9",
+    "@xmldom/xmldom": "0.9.12",
     "astro": "7.4.13"
   }
 }

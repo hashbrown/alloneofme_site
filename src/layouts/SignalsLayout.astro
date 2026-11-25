@@ -1,0 +1,27 @@
+---
+import SignalFeed from '../components/SignalFeed.astro';
+import { streams, type SignalStream } from '../data/signal';
+import InteriorLayout from './InteriorLayout.astro';
+
+interface Props {
+  stream: SignalStream;
+}
+
+const { stream } = Astro.props;
+---
+
+<InteriorLayout title="Signal" description="Highly Curated Streams">
+  <nav class="signal-nav" aria-label="Signal feeds">
+    {streams.map(({ id, label, href }) => (
+      <a href={href} aria-current={id === stream.id ? 'page' : undefined}>{label}</a>
+    ))}
+  </nav>
+  <div id={stream.id}>
+    <SignalFeed streamId={stream.id} server:defer>
+      <div slot="fallback" class="signal-loading">
+        <p role="status">Loading feed…</p>
+        <noscript><style>.signal-loading > [role="status"] { display:none }</style><p><a href={stream.feed}>View the Atom feed</a></p></noscript>
+      </div>
+    </SignalFeed>
+  </div>
+</InteriorLayout>

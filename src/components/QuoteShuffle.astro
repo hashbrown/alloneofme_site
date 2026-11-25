@@ -1,50 +1,45 @@
 ---
-const quotes = [
-  { text: 'Our life is frittered away by detail.', author: 'Henry David Thoreau', source: 'https://www.gutenberg.org/ebooks/205' },
-  { text: 'Nothing can bring you peace but yourself.', author: 'Ralph Waldo Emerson', source: 'https://www.gutenberg.org/ebooks/2944' },
-  { text: 'A foolish consistency is the hobgoblin of little minds.', author: 'Ralph Waldo Emerson', source: 'https://www.gutenberg.org/ebooks/2944' },
-  { text: 'Simplify, simplify.', author: 'Henry David Thoreau', source: 'https://www.gutenberg.org/ebooks/205' },
-];
+import { getEntry, type CollectionEntry } from 'astro:content';
+
+type Quote = CollectionEntry<'quoteLists'>['data']['quotes'][number];
+const quotes = (await getEntry('quoteLists', 'quotes'))?.data.quotes ?? [];
 const [firstQuote] = quotes;
 ---
 
-<section class="quotation" aria-label="Favorite quotes" data-quotes={JSON.stringify(quotes)}>
+{firstQuote && <section class="quotation" aria-label="Favorite quotes" data-quotes={JSON.stringify(quotes)}>
   <span class="quote-mark" aria-hidden="true">“</span>
   <figure aria-live="polite" aria-atomic="true">
     <blockquote>{firstQuote.text}</blockquote>
-    <figcaption><a class="quote-author" href={firstQuote.source}>{firstQuote.author}</a></figcaption>
+    <figcaption hidden={!firstQuote.author}><span class="quote-author">{firstQuote.author}</span></figcaption>
   </figure>
-  <button class="shuffle" type="button" hidden>
-    <svg class="icon" aria-hidden="true"><use href="#shuffle-icon" /></svg>
-    Shuffle quote
+  <button class="shuffle" type="button" aria-label="Shuffle quote" hidden>
+    <span class="shuffle-chevron" aria-hidden="true"></span>
   </button>
-</section>
+</section>}
 
 <script>
-  interface Quote {
-    text: string;
-    author: string;
-    source: string;
-  }
+  import type { CollectionEntry } from 'astro:content';
+  type Quote = CollectionEntry<'quoteLists'>['data']['quotes'][number];
 
   const section = document.querySelector<HTMLElement>('[data-quotes]');
   const button = section?.querySelector('button');
   const quote = section?.querySelector('blockquote');
-  const author = section?.querySelector<HTMLAnchorElement>('.quote-author');
+  const caption = section?.querySelector('figcaption');
+  const author = caption?.querySelector('.quote-author');
 
-  if (section?.dataset.quotes && button && quote && author) {
+  if (section?.dataset.quotes && button && quote && caption && author) {
     const quotes: Quote[] = JSON.parse(section.dataset.quotes);
     let current = 0;
 
-    button.hidden = false;
+    button.hidden = quotes.length < 2;
     button.addEventListener('click', () => {
       const offset = 1 + Math.floor(Math.random() * (quotes.length - 1));
       current = (current + offset) % quotes.length;
       const next = quotes[current];
 
       quote.textContent = next.text;
-      author.textContent = next.author;
-      author.href = next.source;
+      author.textContent = next.author ?? '';
+      caption.hidden = !next.author;
     });
   }
 </script>

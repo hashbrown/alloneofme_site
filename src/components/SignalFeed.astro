@@ -1,0 +1,63 @@
+---
+import { loadAtomFeed } from '../data/atom-feed';
+import { streams, type SignalStream } from '../data/signal';
+
+interface Props {
+  streamId: SignalStream['id'];
+}
+
+const stream = streams.find(({ id }) => id === Astro.props.streamId);
+let feed: Awaited<ReturnType<typeof loadAtomFeed>> | null = null;
+if (stream) {
+  try {
+    feed = await loadAtomFeed(stream.feed);
+  } catch (error) {
+    console.error('Signal feed unavailable', { stream: stream.id, error: String(error) });
+  }
+}
+Astro.response.headers.set('Cache-Control', feed ? 'public, max-age=300' : 'no-store');
+const dateFormat = new Intl.DateTimeFormat('en-US', {
+  dateStyle: 'medium',
+  timeZone: 'UTC',
+});
+---
+
+{!feed ? (
+  <p class="signal-loading">
+    This feed is temporarily unavailable. Try again in a moment.
+    {stream && <a href={stream.feed}>View the Atom feed</a>}
+  </p>
+) : (
+  <section aria-labelledby="feed-heading">
+    <header class="section-head">
+      <h2 id="feed-heading">{feed.title}</h2>
+      {stream && <a href={stream.feed}>Subscribe (Atom)</a>}
+    </header>
+    {feed.description && <p class="section-description">{feed.description}</p>}
+    {feed.articles.length === 0 ? (
+      <p class="signal-loading">This feed has no articles yet.</p>
+    ) : (
+      <div class="signal-list">
+        {feed.articles.map(({ title, url, source, summary, date, thumbnail }) => (
+          <article class="entry signal-entry">
+            <div class="signal-cover" aria-hidden="true">
+              <span>{source.slice(0, 1).toUpperCase()}</span>
+              {thumbnail && (
+                <img src={thumbnail} alt="" width="144" height="96" loading="lazy" decoding="async"
+                  referrerpolicy="no-referrer" onerror="this.hidden = true" />
+              )}
+            </div>
+            <div>
+              <p class="signal-meta">
+                <span>{source}</span>
+                {date && <time datetime={date.toISOString()}>{dateFormat.format(date)}</time>}
+              </p>
+              <h3 class="entry-title"><a href={url}>{title}</a></h3>
+              {summary && <p class="entry-summary">{summary}</p>}
+            </div>
+          </article>
+        ))}
+      </div>
+    )}
+  </section>
+)}

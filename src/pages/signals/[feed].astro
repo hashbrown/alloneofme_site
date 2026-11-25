@@ -1,0 +1,19 @@
+---
+import { streams, type SignalStream } from '../../data/signal';
+import SignalsLayout from '../../layouts/SignalsLayout.astro';
+
+export function getStaticPaths() {
+  return streams.map((stream) => ({
+    params: { feed: stream.id },
+    props: { stream },
+  }));
+}
+
+interface Props {
+  stream: SignalStream;
+}
+
+const { stream } = Astro.props;
+---
+
+<SignalsLayout stream={stream} />

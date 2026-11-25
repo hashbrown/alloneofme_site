@@ -33,7 +33,7 @@ html { scroll-padding-top:77px }
 }
 /* Move the reserved edge space around the active link without widening the row. */
 .nav-sections:has(.nav-section.active) { padding-inline:0 }
-.brand { font:700 1.03rem var(--mono); letter-spacing:-.055em; text-decoration:none }
+.brand { font:300 1.5rem var(--mono); letter-spacing:-.055em; text-decoration:none }
 .nav-section { display:grid; text-align:center; text-decoration:none; white-space:nowrap }
 /* Reserve the bold label's width so the selected link keeps its center. */
 .nav-section::after { content:attr(data-label) / ""; visibility:hidden; font-weight:700 }
@@ -71,12 +71,13 @@ html { scroll-padding-top:77px }
 .thumb.right { background-position:right center }
 .entry-kind { display:flex; align-items:center; gap:.42rem; color:var(--green) }
 .entry-kind .icon { width:.92rem; height:.92rem }
-.quotation { margin-block:2.65rem 1.45rem; padding:clamp(1.4rem, 4vw, 2.75rem); background:#e7ebe5; border-left:4px solid #4d7a61; border-radius:0 8px 8px 0; display:grid; grid-template-columns:auto minmax(0,1fr) auto; gap:.8rem clamp(.8rem, 3vw, 2rem); align-items:center }
-.quote-mark { font:500 clamp(4rem, 8vw, 7rem)/.68 var(--serif); color:#557f69; align-self:start; margin-top:.45rem }
-.quotation blockquote { font-size:clamp(1.7rem, 3.35vw, 2.93rem); letter-spacing:-.043em; max-width:32ch }
+.quotation { margin-block:2.65rem 1.45rem; padding:clamp(1rem, 3vw, 1.9rem); background:#e7ebe5; border-left:4px solid #4d7a61; border-radius:0 8px 8px 0; display:grid; grid-template-columns:auto minmax(0,1fr) auto; gap:clamp(.5rem, 2vw, 1.4rem); align-items:center }
+.quote-mark { font:500 clamp(3rem, 6vw, 5rem)/.68 var(--serif); color:#557f69; align-self:start; margin-top:.35rem }
+.quotation blockquote {font-size:clamp(1.35rem, 1.75vw, 2.15rem); font-style:italic; font-weight:200; line-height:1.25; letter-spacing:0em; white-space:pre-line }
 .quote-author { display:inline-block; margin-top:.82rem; background:#d6e2d7; color:#214638; border-radius:4px; padding:.27rem .53rem; font:.8rem/1.35 var(--mono) }
-.shuffle { display:inline-flex; align-items:center; justify-content:center; gap:.5rem; background:var(--paper); color:var(--green); border:1px solid #aebeb0; border-radius:5px; padding:.52rem .79rem; font-size:.86rem; font-weight:650 }
-.shuffle:hover { background:#d8e7d9; border-color:#6e8f79 }
+.shuffle { display:grid; place-items:center; inline-size:2.75rem; block-size:2.75rem; padding:0; border:0; border-radius:5px; background:transparent; color:var(--green) }
+.shuffle-chevron { inline-size:.68rem; block-size:.68rem; border:solid currentColor; border-width:2px 2px 0 0; transform:translateX(-15%) rotate(45deg) }
+.shuffle:hover { background:#d8e7d9 }
 .shuffle:active { background:#cbdccf }
 footer { color:var(--muted); font-size:.83rem; display:flex; justify-content:space-between; flex-wrap:wrap; gap:.55rem; padding-block:.55rem 1.55rem }
 @media (max-width:810px) {
@@ -92,8 +93,6 @@ footer { color:var(--muted); font-size:.83rem; display:flex; justify-content:spa
   .plot { padding:1rem 1.35rem }
   .plot svg { height:145px }
   .content { margin-top:1.75rem; gap:1.35rem }
-  .quotation { grid-template-columns:auto minmax(0,1fr) }
-  .shuffle { grid-column:2; justify-self:start }
 }
 
 [hidden] { display:none !important }
@@ -108,7 +107,10 @@ footer a:hover { text-decoration:underline }
 .entry .entry-title a:hover { text-decoration:underline }
 .entry .entry-summary { color:var(--muted); font-size:.9rem; margin-top:.26rem }
 
-.interior { max-width:740px; margin-block:clamp(2.1rem, 7vw, 4.8rem) 3rem }
+.interior { max-width:920px; margin-block:clamp(2.1rem, 7vw, 4.8rem) 3rem }
+@media (min-width:811px) {
+  .interior { margin-inline-start:1.5rem }
+}
 .page-heading { margin-bottom:1.85rem }
 .page-heading h1 { font-size:clamp(2.2rem, 5vw, 3.5rem); letter-spacing:-.04em; line-height:1.08 }
 .page-heading .eyebrow { display:block; width:fit-content; margin-bottom:.75rem }
@@ -117,12 +119,19 @@ footer a:hover { text-decoration:underline }
 .entry-list { border-top:1px solid var(--rule) }
 .entry-list .entry { padding-block:1.1rem }
 .entry-list .entry-title { font-size:1.5rem }
-.entry-list .entry-summary, .stream .entry-summary { font-size:1rem }
-.prose { max-width:65ch; font-size:1.06rem; line-height:1.72 }
+.entry-list .entry-summary, .signal-entry .entry-summary { font-size:1rem }
+.prose { max-width:72ch; font-size:1.06rem; line-height:1.72 }
 .prose p + p { margin-top:1rem }
 .prose a, .parent-link { color:var(--green) }
 .prose a:hover, .parent-link:hover { color:var(--red) }
 .prose li + li { margin-top:.45rem }
 .prose ul { padding-inline-start:1.35rem }
-.stream { scroll-margin-top:1.5rem }
-.stream + .stream { margin-top:1.8rem }
+.signal-nav { display:flex; flex-wrap:wrap; justify-content:center; gap:.5rem; margin-block:0 2rem }
+.signal-nav a { padding:.45rem .9rem; border:1px solid var(--rule); border-radius:999px; text-decoration:none; font-size:.9rem }
+.signal-nav a[aria-current="page"] { background:var(--green); border-color:var(--green); color:var(--paper); font-weight:650 }
+.signal-loading,.signal-list { margin-top:1rem }
+.signal-loading { color:var(--muted) }
+.signal-entry { display:grid; grid-template-columns:clamp(76px, 24vw, 144px) minmax(0,1fr); align-items:start; gap:clamp(.75rem, 3vw, 1.2rem); padding-block:1.05rem }
+.signal-cover { position:relative; display:grid; place-items:center; aspect-ratio:3/2; overflow:hidden; border-radius:6px; background:#e0e9df; color:var(--green); font:500 1.65rem var(--serif) }
+.signal-cover img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; background:var(--paper) }
+.signal-meta { display:flex; flex-wrap:wrap; gap:.2rem .7rem; margin-bottom:.24rem; color:var(--muted); font-size:.8rem; overflow-wrap:anywhere }

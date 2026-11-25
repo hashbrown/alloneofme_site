@@ -11,7 +11,7 @@ interface Props {
 const { title, description, label, parent } = Astro.props;
 ---
 
-<SiteLayout title={title} description={description}>
+<SiteLayout title={title} description={description} showTitleInNav={!!parent}>
   <div class="interior">
     <header class="page-heading">
       {parent && <a class="eyebrow parent-link" href={parent.href}>{parent.title}</a>}

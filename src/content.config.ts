@@ -19,4 +19,14 @@ const projects = defineCollection({
   schema: entry.extend({ repository: z.url().optional() }),
 });
 
-export const collections = { writing, projects };
+const quoteLists = defineCollection({
+  loader: glob({ pattern: 'quotes.md', base: './src/content' }),
+  schema: z.object({
+    quotes: z.array(z.object({
+      text: z.string().trim().min(1),
+      author: z.string().trim().min(1).optional(),
+    })),
+  }),
+});
+
+export const collections = { writing, projects, quoteLists };

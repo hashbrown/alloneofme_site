@@ -40,23 +40,22 @@ const projects = (await getCollection('projects'))
     </section>
     <section aria-labelledby="signal-title">
       <div class="section-head">
-        <h2 id="signal-title">Signal</h2>
+        <h2 id="signal-title">Signals</h2>
         <a href="/signals/">Browse streams</a>
       </div>
       <p class="section-description">Highly Curated Streams</p>
-      {streams.flatMap(({ id, title, entries }) => entries.slice(0, 1).map((entry) => (
+      {streams.map(({ label, href, thumbnail }) => (
         <Entry
-          title={entry.title}
-          label={entry.url ? title : title + ' · Sample'}
-          href={entry.url ?? '/signals/#' + id}
-          thumbnail={entry.thumbnail}
+          title={label}
+          href={href}
+          thumbnail={thumbnail}
         />
-      )))}
+      ))}
     </section>
     <section aria-labelledby="lab-title">
       <div class="section-head">
-        <h2 id="lab-title">Lab</h2>
-        <a href="/software/">All projects</a>
+        <h2 id="lab-title">The Lab</h2>
+        <a href="/software/">All experiments</a>
       </div>
       {projects.map(({ id, data }) => (
         <Entry title={data.title} label={data.label} summary={data.summary} href={'/software/' + id + '/'} project />

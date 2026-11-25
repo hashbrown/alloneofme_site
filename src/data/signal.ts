@@ -1,41 +1,16 @@
-interface Stream {
-  id: string;
-  title: string;
-  description: string;
-  feed?: string;
-  entries: {
-    title: string;
-    summary: string;
-    url?: string;
-    thumbnail?: 'left' | 'right';
-  }[];
-}
-
-export const streams: Stream[] = [
+export const streams = ([
   {
     id: 'engineering-reads',
-    title: 'Engineering Reads',
-    description: 'Selected links on building and maintaining software.',
+    label: 'Engineering Reads',
     feed: 'https://feeds.alloneof.me/eng.atom',
-    entries: [
-      {
-        title: 'Fast is better than slow',
-        summary: 'Patrick Dubroy on how shorter feedback loops help engineers try more approaches.',
-        url: 'https://dubroy.com/blog/fast-is-better-than-slow/',
-        thumbnail: 'left',
-      },
-    ],
+    thumbnail: 'left',
   },
   {
     id: 'engineering-leaders',
-    title: 'Engineering Leaders',
-    description: 'Selected reading on leading teams and making decisions.',
-    entries: [
-      {
-        title: 'Make room for the long view',
-        summary: 'A sample entry about setting aside time to notice which problems recur from sprint to sprint.',
-        thumbnail: 'right',
-      },
-    ],
+    label: 'Leadership Reads',
+    feed: 'https://feeds.alloneof.me/eng-leaders.atom',
+    thumbnail: 'right',
   },
-];
+] as const).map((stream) => ({ ...stream, href: `/signals/${stream.id}/` }));
+
+export type SignalStream = (typeof streams)[number];
