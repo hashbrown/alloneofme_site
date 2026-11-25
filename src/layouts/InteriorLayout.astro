@@ -1,4 +1,6 @@
 ---
+import type { ComponentProps } from 'astro/types';
+import SectionIcon from '../components/SectionIcon.astro';
 import SiteLayout from './SiteLayout.astro';
 
 interface Props {
@@ -6,19 +8,27 @@ interface Props {
   description?: string;
   parent?: { title: string; href: string };
   label?: string;
+  sectionIcon?: ComponentProps<typeof SectionIcon>['section'];
 }
 
-const { title, description, label, parent } = Astro.props;
+const { title, description, label, parent, sectionIcon } = Astro.props;
+const hasSidebar = Astro.slots.has('sidebar');
 ---
 
 <SiteLayout title={title} description={description} showTitleInNav={!!parent}>
-  <div class="interior">
-    <header class="page-heading">
-      {parent && <a class="eyebrow parent-link" href={parent.href}>{parent.title}</a>}
-      {label && <p class="eyebrow">{label}</p>}
-      <h1>{title}</h1>
-      {description && <p class="page-summary">{description}</p>}
+  <div class:list={['interior', { 'interior-with-sidebar': hasSidebar }]}>
+    <header class:list={['page-heading', { 'page-heading-with-icon': sectionIcon }]}>
+      {sectionIcon && <SectionIcon section={sectionIcon} />}
+      <div>
+        {parent && <a class="eyebrow parent-link" href={parent.href}>{parent.title}</a>}
+        {label && <p class="eyebrow">{label}</p>}
+        <h1>{title}</h1>
+        {description && <p class="page-summary">{description}</p>}
+      </div>
     </header>
-    <slot />
+    <div class:list={{ 'interior-columns': hasSidebar }}>
+      <slot />
+      <slot name="sidebar" />
+    </div>
   </div>
 </SiteLayout>

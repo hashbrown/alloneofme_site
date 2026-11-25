@@ -1,15 +1,26 @@
 ---
 import { getCollection } from 'astro:content';
 import Entry from '../../components/Entry.astro';
+import GitHubActivity from '../../components/GitHubActivity.astro';
+import { githubAccount } from '../../data/github-activity';
 import InteriorLayout from '../../layouts/InteriorLayout.astro';
 
 const entries = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
 ---
 
-<InteriorLayout title="Lab" description="Projects and prototypes I’m working on.">
+<InteriorLayout title="The Lab" description="Projects · Prototypes · Experiments · Hopes · Dreams" sectionIcon="software">
   <div class="entry-list">
     {entries.map(({ id, data }) => (
       <Entry title={data.title} label={data.label} summary={data.summary} href={'/software/' + id + '/'} heading="h2" project />
     ))}
   </div>
+  <aside slot="sidebar" class="github-activity" aria-labelledby="github-activity-title">
+    <header class="section-head">
+      <h2 id="github-activity-title">GitHub activity</h2>
+      <a href={`https://github.com/${githubAccount}`}>@{githubAccount}</a>
+    </header>
+    <GitHubActivity server:defer>
+      <p slot="fallback" class="github-activity-status" role="status">Loading GitHub activity…</p>
+    </GitHubActivity>
+  </aside>
 </InteriorLayout>

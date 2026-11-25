@@ -10,7 +10,7 @@ interface Props {
 const { stream } = Astro.props;
 ---
 
-<InteriorLayout title="Signal" description="Highly Curated Streams">
+<InteriorLayout title="Signal" description="Highly Curated Streams" sectionIcon="signals">
   <nav class="signal-nav" aria-label="Signal feeds">
     {streams.map(({ id, label, href }) => (
       <a href={href} aria-current={id === stream.id ? 'page' : undefined}>{label}</a>

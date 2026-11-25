@@ -6,7 +6,7 @@ import InteriorLayout from '../../layouts/InteriorLayout.astro';
 const entries = (await getCollection('writing')).sort((a, b) => a.data.order - b.data.order);
 ---
 
-<InteriorLayout title="Words In Order" description="Articles, notes, and things I’m still thinking through.">
+<InteriorLayout title="Words In Order" description="Quantum Entanglement: Brain · Page · Brain" sectionIcon="words">
   <div class="entry-list">
     {entries.map(({ id, data }) => (
       <Entry title={data.title} label={data.label} summary={data.summary} href={'/words/' + id + '/'} heading="h2" />

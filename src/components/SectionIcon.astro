@@ -1,0 +1,13 @@
+---
+interface Props {
+  section: 'words' | 'signals' | 'software';
+}
+
+const { section } = Astro.props;
+---
+
+<span class:list={['section-icon', `section-icon-${section}`]} aria-hidden="true">
+  <span class="section-icon-mark">
+    {section === 'words' && <span class="section-icon-page"></span>}
+  </span>
+</span>

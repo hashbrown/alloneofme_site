@@ -1,0 +1,27 @@
+---
+import { activityDays, loadGitHubActivity } from '../data/github-activity';
+
+const { available, items } = await loadGitHubActivity();
+Astro.response.headers.set('Cache-Control', available ? 'public, max-age=900' : 'no-store');
+
+const formatDate = new Intl.DateTimeFormat('en-US', { dateStyle: 'medium', timeZone: 'UTC' });
+---
+
+{!available ? (
+  <p class="github-activity-status">GitHub activity is temporarily unavailable.</p>
+) : items.length === 0 ? (
+  <p class="github-activity-status">No public activity in the past {activityDays} days.</p>
+) : (
+  <ul class="github-activity-list" role="list" tabindex="0" aria-label="Recent GitHub activity">
+    {items.map(({ title, repo, href, date, kind }) => (
+      <li>
+        <p class="github-activity-kind">{kind}</p>
+        <a class="github-activity-link" href={href}>{title}</a>
+        <p class="github-activity-meta">
+          <span>{repo}</span>
+          <time datetime={date}>{formatDate.format(new Date(date))}</time>
+        </p>
+      </li>
+    ))}
+  </ul>
+)}

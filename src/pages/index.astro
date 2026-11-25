@@ -3,6 +3,7 @@ import { getCollection, getEntry } from 'astro:content';
 import Entry from '../components/Entry.astro';
 import HeroChart from '../components/HeroChart.astro';
 import QuoteShuffle from '../components/QuoteShuffle.astro';
+import SectionIcon from '../components/SectionIcon.astro';
 import { streams } from '../data/signal';
 import SiteLayout from '../layouts/SiteLayout.astro';
 
@@ -31,7 +32,7 @@ const projects = (await getCollection('projects'))
   <div class="content">
     <section aria-labelledby="writing-title">
       <div class="section-head">
-        <h2 id="writing-title">Words In Order</h2>
+        <h2 id="writing-title" class="home-section-title"><SectionIcon section="words" />Words In Order</h2>
         <a href="/words/">All writing</a>
       </div>
       {writing.map(({ id, data }) => (
@@ -40,7 +41,7 @@ const projects = (await getCollection('projects'))
     </section>
     <section aria-labelledby="signal-title">
       <div class="section-head">
-        <h2 id="signal-title">Signals</h2>
+        <h2 id="signal-title" class="home-section-title"><SectionIcon section="signals" />Signals</h2>
         <a href="/signals/">Browse streams</a>
       </div>
       <p class="section-description">Highly Curated Streams</p>
@@ -54,7 +55,7 @@ const projects = (await getCollection('projects'))
     </section>
     <section aria-labelledby="lab-title">
       <div class="section-head">
-        <h2 id="lab-title">The Lab</h2>
+        <h2 id="lab-title" class="home-section-title"><SectionIcon section="software" />The Lab</h2>
         <a href="/software/">All experiments</a>
       </div>
       {projects.map(({ id, data }) => (
